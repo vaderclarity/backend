@@ -1,20 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from googletrans import Translator
+from deep_translator import GoogleTranslator
 
 app = FastAPI()
 
 # Allow frontend to communicate with backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://frontend-ebon-sigma-12.vercel.app"],
+    allow_origins=["*"],  # Allow all origins for now (change later in production)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-translator = Translator()
 
 class TranslationRequest(BaseModel):
     text: str
@@ -26,5 +24,8 @@ def home():
 
 @app.post("/translate")
 def translate_text(request: TranslationRequest):
-    translated = translator.translate(request.text, dest=request.target_language)
-    return {"translated_text": translated.text}
+    try:
+        translated_text = GoogleTranslator(source="auto", target=request.target_language).translate(request.text)
+        return {"translated_text": translated_text}
+    except Exception as e:
+        return {"error": str(e)}
