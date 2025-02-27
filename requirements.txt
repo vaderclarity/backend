@@ -2,6 +2,6 @@ fastapi
 uvicorn
 pydantic
 python-dotenv
-openai
+openai==0.28
 requests
 SpeechRecognition
