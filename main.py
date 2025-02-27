@@ -31,12 +31,12 @@ def home():
     return {"message": "Healthcare Translation API with AI is running!"}
 
 @app.post("/translate")
-def translate_text(request: TranslationRequest):
+async def translate_text(request: TranslationRequest):
     try:
         if not request.text.strip():
             raise HTTPException(status_code=400, detail="Input text cannot be empty.")
 
-        response = openai.ChatCompletion.create(
+        response = await openai.ChatCompletion.create(
             model="gpt-4o",
             messages=[
                 {"role": "system", "content": "You are a medical translation AI. Ensure accurate medical terminology in translations."},
