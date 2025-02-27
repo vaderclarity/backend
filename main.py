@@ -36,7 +36,7 @@ async def translate_text(request: TranslationRequest):
         if not request.text.strip():
             raise HTTPException(status_code=400, detail="Input text cannot be empty.")
 
-        response = await openai.ChatCompletion.create(
+        response = openai.ChatCompletion.create(
             model="gpt-4o",
             messages=[
                 {"role": "system", "content": "You are a medical translation AI. Ensure accurate medical terminology in translations."},
