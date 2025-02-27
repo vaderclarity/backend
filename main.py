@@ -31,7 +31,7 @@ def home():
     return {"message": "Healthcare Translation API with AI is running!"}
 
 @app.post("/translate")
-async def translate_text(request: TranslationRequest):
+def translate_text(request: TranslationRequest):
     try:
         if not request.text.strip():
             raise HTTPException(status_code=400, detail="Input text cannot be empty.")
